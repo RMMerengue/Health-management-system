@@ -286,7 +286,7 @@
                 //添加
                 handleAdd () {
                     axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
-                        dialogFormVisible = false;
+                        this.dialogFormVisible = false;
                         if(res.data.flag){
                             this.$message({
                                 type:'success',
@@ -301,6 +301,15 @@
                 },
                 //分页查询
                 findPage() {
+                    var param = {
+                        currentPage: this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString: this.pagination.queryString
+                    }
+                    axios.post("/checkgroup/findPage.do", param).then((res)=>{
+                        this.dataList = res.data.rows;
+                        this.pagination.total = res.data.total;
+                    });
                 },
                 // 重置表单
                 resetForm() {
@@ -325,6 +334,8 @@
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {

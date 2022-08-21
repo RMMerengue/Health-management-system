@@ -37,4 +37,24 @@ public class CheckItemServiceImpl implements CheckItemService {
         List<CheckItem> rows = page.getResult();
         return new PageResult(total,rows);
     }
+
+    @Override
+    public void delete(Integer id) {
+        long count = checkItemDao.findCountByCheckItemId(id);
+        if(count > 0){
+            new RuntimeException();
+        }
+        checkItemDao.deleteById(id);
+    }
+
+
+    @Override
+    public void edit(CheckItem checkItem) {
+        checkItemDao.edit(checkItem);
+    }
+
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
 }

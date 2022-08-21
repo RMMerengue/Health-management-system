@@ -282,6 +282,19 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    axios.post("/checkgroup/edit.do?checkitemIds=" + this.checkitemIds,this.formData).then((res)=>{
+                        this.dialogFormVisible4Edit = false;
+                        if(res.data.flag){
+                            this.$message({
+                                type:'success',
+                                message:res.data.message
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(()=>{
+                        this.findPage();
+                    });
                 },
                 //添加
                 handleAdd () {
@@ -331,6 +344,30 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
+                    this.activeName = 'first';
+                    axios.get("/checkgroup/findById.do?id="+row.id).then((res)=>{
+                        if(res.data.flag){
+                            this.formData = res.data.data;
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
+                    axios.get("/checkitem/findAll.do").then((res)=>{
+                        if(res.data.flag){
+                            this.tableData = res.data.data;
+                            axios.get("/checkgroup/findCheckItemIdsByCheckGroupId.do?id="+row.id).then((res)=>{
+                                if(res.data.flag){
+                                    this.checkitemIds = res.data.data;
+                                }else{
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
+
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {

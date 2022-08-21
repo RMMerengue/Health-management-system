@@ -13,6 +13,7 @@ import org.springframework.core.SpringVersion;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service(interfaceClass = CheckGroupService.class)
@@ -25,14 +26,7 @@ public class CheckGroupServiceImpl implements CheckGroupService{
     public void add(CheckGroup checkGroup, Integer[] checkitemIds) {
         checkGroupDao.add(checkGroup);
         Integer checkGroupId = checkGroup.getId();
-        if(checkitemIds !=null && checkitemIds.length>0){
-            for(Integer checkitemId : checkitemIds){
-                Map<String,Integer> map = new HashMap<>();
-                map.put("checkgroup_id",checkGroupId);
-                map.put("checkitem_id",checkitemId);
-                checkGroupDao.setCheckGroupAndCheckItem(map);
-            }
-        }
+        this.setCheckGroupDaoAndCheckItem(checkGroupId,checkitemIds);
     }
 
     public PageResult pageQuery(QueryPageBean queryPageBean) {
@@ -43,4 +37,33 @@ public class CheckGroupServiceImpl implements CheckGroupService{
         Page<CheckGroup> page = checkGroupDao.findByCondition(queryString);
         return new PageResult(page.getTotal(),page.getResult());
     }
+
+    public CheckGroup findById(Integer id) {
+        return checkGroupDao.findById(id);
+    }
+
+    public List<Integer> findCheckItemByCheckGroupId(Integer id) {
+        return checkGroupDao.findCheckItemByCheckGroupId(id);
+    }
+
+    public void edit(CheckGroup checkGroup, Integer[] checkitemIds) {
+        checkGroupDao.edit(checkGroup);
+        checkGroupDao.deleteAssociation(checkGroup.getId());
+        Integer checkGroupId = checkGroup.getId();
+        this.setCheckGroupDaoAndCheckItem(checkGroupId,checkitemIds);
+
+    }
+
+    public void setCheckGroupDaoAndCheckItem(Integer checkGroupId, Integer[] checkitemIds){
+        if(checkitemIds !=null && checkitemIds.length>0){
+            for(Integer checkitemId : checkitemIds){
+                Map<String,Integer> map = new HashMap<>();
+                map.put("checkgroup_id",checkGroupId);
+                map.put("checkitem_id",checkitemId);
+                checkGroupDao.setCheckGroupAndCheckItem(map);
+            }
+        }
+    }
+
+
 }

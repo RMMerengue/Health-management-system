@@ -376,6 +376,26 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    this.$confirm("确认删除当前选中记录吗？","提示",{
+                        type:'warning'
+                    }).then(()=>{
+                        axios.get("/checkgroup/delete.do?id="+row.id).then((res)=>{
+                            if(res.data.flag){
+                                this.$message({
+                                    type: 'success',
+                                    message: res.data.message
+                                });
+                                this.findPage();
+                            }else{
+                                this.$message.error(res.data.message);
+                            }
+                        });
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '操作已取消'
+                        })
+                    });
                 }
             }
         })

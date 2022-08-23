@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ordersetting")
@@ -27,18 +28,32 @@ public class OrderSettingController {
     public Result upload(@RequestParam("excelFile")MultipartFile excelFile){
         try {
             List<String[]> list = POIUtils.readExcel(excelFile);
-            List<OrderSetting> data = new ArrayList<OrderSetting>();
-            for(String[] strings : list){
-                String orderData = strings[0];
-                String number = strings[1];
-                OrderSetting orderSetting = new OrderSetting(new Date(orderData),Integer.parseInt(number));
-                data.add(orderSetting);
+            if(list != null && list.size()>0){
+                List<OrderSetting> data = new ArrayList<OrderSetting>();
+                for(String[] strings : list){
+                    String orderData = strings[0];
+                    String number = strings[1];
+                    OrderSetting orderSetting = new OrderSetting(new Date(orderData),Integer.parseInt(number));
+                    data.add(orderSetting);
+                }
+                orderSettingService.add(data);
             }
-            orderSettingService.add(data);
-            return new Result(true, MessageConstant.IMPORT_ORDERSETTING_SUCCESS);
+
         } catch (IOException e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.IMPORT_ORDERSETTING_FAIL);
+        }
+        return new Result(true, MessageConstant.IMPORT_ORDERSETTING_SUCCESS);
+    }
+
+    @RequestMapping("/getOrderSettingByMonth")
+    public Result getOrderSettingByMonth(String date){
+        try{
+            List<Map> list = orderSettingService.getOrderSettingByMonth(date);
+            return new Result(true,MessageConstant.GET_ORDERSETTING_SUCCESS,list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_ORDERSETTING_FAIL);
         }
     }
 }

@@ -18,4 +18,8 @@
     <select id="findCountByOrderDate" parameterType="date" resultType="long">
         select count(id) from t_ordersetting where orderDate = #{orderDate}
     </select>
+
+    <select id="getOrderSettingByMonth" parameterType="map" resultType="com.itheima.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate between #{begin} and #{end}
+    </select>
 </mapper>

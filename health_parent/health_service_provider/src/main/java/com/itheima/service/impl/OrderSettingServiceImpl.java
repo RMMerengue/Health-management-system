@@ -7,7 +7,10 @@ import com.itheima.service.OrderSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = OrderSettingService.class)
 @Transactional
@@ -29,5 +32,45 @@ public class OrderSettingServiceImpl implements OrderSettingService{
             }
 
         }
+    }
+
+    public List<Map> getOrderSettingByMonth(String date) {
+        System.out.println(date);
+        String[] getYearAndMouth = date.split("-");
+        Integer yyyy = Integer.parseInt(getYearAndMouth[0]);
+        Integer mm = Integer.parseInt(getYearAndMouth[1]);
+        String begin = date + "-1";
+        Integer last;
+        if(mm==1||mm==3||mm==5||mm==7||mm==8||mm==10||mm==12){
+            last = 31;
+        }else if(mm==4||mm==6||mm==9||mm==11){
+            last = 30;
+        }else{
+            if(yyyy % 4 == 0 && yyyy % 100 != 0 || yyyy % 400 ==0){
+                last = 29;
+            }else{
+                last = 28;
+            }
+        }
+        String end = date + "-" + Integer.toString(last);
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("begin",begin);
+        map.put("end",end);
+        List<OrderSetting> list = orderSettingDao.getOrderSettingByMonth(map);
+        List<Map> result = new ArrayList<>();
+
+        if(list != null && list.size() > 0){
+            for(OrderSetting orderSetting : list){
+                Map<String, Object> m = new HashMap<>();
+                m.put("date",orderSetting.getOrderDate().getDate());
+                m.put("number",orderSetting.getNumber());
+                m.put("reservations",orderSetting.getReservations());
+                result.add(m);
+            }
+        }
+
+        return result;
     }
 }

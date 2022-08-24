@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service(interfaceClass = SetmealService.class)
@@ -56,5 +57,13 @@ public class SetmealServiceImpl implements SetmealService {
 
     public void delete(Integer id) {
         setmealDao.deleteById(id);
+    }
+
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
+    public Setmeal findById(int id) {
+        return setmealDao.findById(id);
     }
 }

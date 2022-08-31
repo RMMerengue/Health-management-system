@@ -31,4 +31,9 @@
     <update id="editReservationsByOrderDate" parameterType="com.itheima.pojo.OrderSetting">
         update t_ordersetting set reservations = #{reservations} where orderDate = #{orderDate}
     </update>
+
+    <insert id="add" parameterType="com.itheima.pojo.OrderSetting">
+        insert into t_ordersetting(number,orderDate)
+        values (#{number},#{orderDate})
+    </insert>
 </mapper>

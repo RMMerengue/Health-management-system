@@ -18,4 +18,6 @@ public interface OrderSettingDao {
     //根据预约日期查询预约设置信息
     public OrderSetting findByOrderDate(Date orderDate);
 
+    public void add(OrderSetting orderSetting);
+
 }

@@ -17,4 +17,5 @@ public interface MemberDao {
     public Integer findMemberCountAfterDate(String date);
     public Integer findMemberTotalCount();
 
+
 }

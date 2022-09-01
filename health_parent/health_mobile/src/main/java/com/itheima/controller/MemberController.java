@@ -1,13 +1,11 @@
 package com.itheima.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.aliyuncs.exceptions.ClientException;
 import com.itheima.constant.MessageConstant;
-import com.itheima.constant.RedisConstant;
 import com.itheima.constant.RedisMessageConstant;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Member;
-import com.itheima.service.MemberService;
+import com.itheima.security.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

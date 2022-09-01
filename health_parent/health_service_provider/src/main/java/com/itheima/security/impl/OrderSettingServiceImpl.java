@@ -1,9 +1,9 @@
-package com.itheima.service.impl;
+package com.itheima.security.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.dao.OrderSettingDao;
 import com.itheima.pojo.OrderSetting;
-import com.itheima.service.OrderSettingService;
+import com.itheima.security.OrderSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 

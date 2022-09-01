@@ -1,4 +1,4 @@
-package com.itheima.service;
+package com.itheima.security;
 
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;

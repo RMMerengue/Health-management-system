@@ -1,4 +1,4 @@
-package com.itheima.service.impl;
+package com.itheima.security.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -8,7 +8,7 @@ import com.itheima.dao.SetmealDao;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Setmeal;
-import com.itheima.service.SetmealService;
+import com.itheima.security.SetmealService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;

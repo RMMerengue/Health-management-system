@@ -15,4 +15,5 @@ public interface SetmealDao {
     public void deleteById(Integer id);
     public List<Setmeal> findAll();
     public Setmeal findById(int id);
+    public List<Map<String,Object>> findSetmealCount();
 }
